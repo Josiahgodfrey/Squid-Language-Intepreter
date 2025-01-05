@@ -1,5 +1,12 @@
 #include "Lexer.h"
 
+struct Token {
+    TokenType type;
+    std::string text;
+
+    Token(TokenType type, std::string text) : type(type), text(text) {}
+};
+
 Token Lexer::getNextToken() {
     while (position < input.length()) {
         char currentChar = input[position];
@@ -82,27 +89,26 @@ Token Lexer::getNextToken() {
                 return Token(VARIABLE, identifier);
             }
         }
+
         // Token identifier handling
+
         else if (currentChar == '^') {
-        position++;
-        return Token(POWER, "^");
-        }
-        else if (currentChar == '&') {
+            position++;
+            return Token(POWER, "^");
+        } else if (currentChar == '&') {
             position++;
             return Token(AND, "&");
-        }
-        else if (currentChar == '|') {
+        } else if (currentChar == '|') {
             position++;
             return Token(OR, "|");
-        }
-        else if (currentChar == '!') {
+        } else if (currentChar == '!') {
             position++;
             return Token(NOT, "!");
         }
 
         else if (currentChar == '"') {
-        position++;
-        std::string text;
+            position++;
+            std::string text;
 
             while (currentChar != '"') {
                 if (currentChar == '\\') {
@@ -124,9 +130,9 @@ Token Lexer::getNextToken() {
                 position++;
             }
 
-        position++;
-        return Token(STRING, text);
-    }
+            position++;
+            return Token(STRING, text);
+        }
 
         switch (currentChar) {
             case '+':
