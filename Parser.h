@@ -4,10 +4,24 @@
 #include "Lexer.h"
 #include <unordered_map>
 
+class Lexer;
+struct Token;
+
+class Function {
+public:
+    std::string name;
+    std::vector<std::string> parameters;
+    std::vector<Token> body;
+
+    Function(std::string name, std::vector<std::string> parameters, std::vector<Token> body)
+        : name(name), parameters(parameters), body(body) {}
+};
+
 class Parser {
 private:
     Lexer lexer;
     Token currentToken;
+    Function* currentFunction;
 
     void eat(TokenType type);
     int factor();
@@ -20,21 +34,40 @@ public:
     }
 
     void parse();
+    void parseFunction();
+    void parseIfStatement();
+    void parseWhileStatement();
 };
 
-// Add a Function class to represent functions
-class Function {
-public:
-    std::string name;
+void Parser::parseFunction() {
+    eat(FUNCTION);
+    std::string name = currentToken.text;
+    eat(IDENTIFIER);
+
+    eat(LPAREN);
     std::vector<std::string> parameters;
+    while (currentToken.type != RPAREN) {
+        std::string parameter = currentToken.text;
+        eat(IDENTIFIER);
+        parameters.push_back(parameter);
+
+        if (currentToken.type == COMMA) {
+            eat(COMMA);
+        }
+    }
+    eat(RPAREN);
+
+    eat(LBRACE);
     std::vector<Token> body;
+    while (currentToken.type != RBRACE) {
+        body.push_back(currentToken);
+        currentToken = lexer.getNextToken();
+    }
+    eat(RBRACE);
 
-    Function(std::string name, std::vector<std::string> parameters, std::vector<Token> body)
-        : name(name), parameters(parameters), body(body) {}
-};
+    currentFunction = new Function(name, parameters, body);
+}
 
-
-// Modifying the Parser class to handle if statements
 void Parser::parseIfStatement() {
     eat(IF);
     eat(LPAREN);
@@ -50,7 +83,6 @@ void Parser::parseIfStatement() {
     }
 }
 
-// Modify the Parser class to handle while statements
 void Parser::parseWhileStatement() {
     eat(WHILE);
     eat(LPAREN);
@@ -62,6 +94,5 @@ void Parser::parseWhileStatement() {
         condition = parseCondition();
     }
 }
-
 
 #endif
