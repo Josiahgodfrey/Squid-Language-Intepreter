@@ -1,6 +1,11 @@
 #include "Lexer.h"
 #include "Parser.h"
+#include "Node.h"
+#include "NodeType.h"
 #include "SymbolTable.h"
+#include <vector>
+#include <string>
+#include <iostream>
 
 class Interpreter {
 private:

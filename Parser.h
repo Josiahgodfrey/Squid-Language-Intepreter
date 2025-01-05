@@ -3,19 +3,12 @@
 
 #include "Lexer.h"
 #include <unordered_map>
+#include <vector>
+#include "Node.h"
+
 
 class Lexer;
 struct Token;
-
-class Function {
-public:
-    std::string name;
-    std::vector<std::string> parameters;
-    std::vector<Token> body;
-
-    Function(std::string name, std::vector<std::string> parameters, std::vector<Token> body)
-        : name(name), parameters(parameters), body(body) {}
-};
 
 class Parser {
 private:
@@ -33,10 +26,20 @@ public:
         currentToken = lexer.getNextToken();
     }
 
-    void parse();
+    void parse(std::vector<Token>& tokens);
     void parseFunction();
     void parseIfStatement();
     void parseWhileStatement();
+};
+
+class Function {
+public:
+    std::string name;
+    std::vector<std::string> parameters;
+    std::vector<Token> body;
+
+    Function(std::string name, std::vector<std::string> parameters, std::vector<Token> body)
+        : name(name), parameters(parameters), body(body) {}
 };
 
 void Parser::parseFunction() {
