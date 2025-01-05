@@ -22,4 +22,47 @@ public:
     void parse();
 };
 
+// Add a Function class to represent functions
+class Function {
+public:
+    std::string name;
+    std::vector<std::string> parameters;
+    std::vector<Token> body;
+
+    Function(std::string name, std::vector<std::string> parameters, std::vector<Token> body)
+        : name(name), parameters(parameters), body(body) {}
+};
+
+
+// Modifying the Parser class to handle if statements
+void Parser::parseIfStatement() {
+    eat(IF);
+    eat(LPAREN);
+    bool condition = parseCondition();
+    eat(RPAREN);
+
+    if (condition) {
+        parseBlock();
+    }
+    else if (currentToken.type == ELSE) {
+        eat(ELSE);
+        parseBlock();
+    }
+}
+
+// Modify the Parser class to handle while statements
+void Parser::parseWhileStatement() {
+    eat(WHILE);
+    eat(LPAREN);
+    bool condition = parseCondition();
+    eat(RPAREN);
+
+    while (condition) {
+        parseBlock();
+        condition = parseCondition();
+    }
+}
+
+
+
 #endif
