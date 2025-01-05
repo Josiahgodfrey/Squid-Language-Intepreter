@@ -1,14 +1,23 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include "Function.h"
 #include "Lexer.h"
 #include <unordered_map>
 #include <vector>
+#include <string> // Added for std::string
 #include "Node.h"
+#include "Token.h"
 
 
 class Lexer;
-struct Token;
+struct Token {
+    TokenType type;
+    std::string text;
+
+    Token() = default; // Default constructor
+    Token(TokenType type, std::string text) : type(type), text(text) {}
+};
 
 class Parser {
 private:
@@ -17,6 +26,8 @@ private:
     Function* currentFunction;
 
     void eat(TokenType type);
+    bool parseCondition(); // Added declaration for parseCondition
+    void parseBlock(); // Added declaration for parseBlock
     int factor();
     int term();
     int expr();
@@ -35,7 +46,7 @@ public:
 class Function {
 public:
     std::string name;
-    std::vector<std::string> parameters;
+    std::vector<std::string> parameters; // Fixed vector declaration
     std::vector<Token> body;
 
     Function(std::string name, std::vector<std::string> parameters, std::vector<Token> body)

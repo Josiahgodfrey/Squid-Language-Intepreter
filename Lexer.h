@@ -3,10 +3,12 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include "TokenType.h"
 
 using namespace std;
 
-enum TokenType {
+enum class TokenType {
     NUMBER,
     VARIABLE,
     ASSIGN,
@@ -22,12 +24,6 @@ enum TokenType {
     NOT,
 };
 
-struct Token {
-    TokenType type;
-    string text;
-
-    Token(TokenType type, string text) : type(type), text(text) {}
-};
 
 class Lexer {
 private:
@@ -36,7 +32,7 @@ private:
 
 public:
     Lexer(string input) : input(input), position(0) {}
-
+    vector<Token> tokenize();
     Token getNextToken();
 };
 

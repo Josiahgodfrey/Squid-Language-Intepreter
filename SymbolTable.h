@@ -4,6 +4,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <vector>
+#include <string>
 
 // Define the Function class
 class Function {
@@ -15,57 +16,58 @@ public:
     Function(std::string n, std::vector<std::string> p, std::vector<Token> b)
         : name(n), parameters(p), body(b) {}
 };
+
 class SymbolTable {
 private:
     std::unordered_map<std::string, int> variables;
     std::unordered_map<std::string, Function> functions;
 
 public:
-    void setVariable(std::string name, int value) {
+    void setVariable(const std::string& name, int value) {
         variables[name] = value;
     }
 
-    int getVariable(std::string name) {
+    int getVariable(const std::string& name) {
         if (variables.find(name) != variables.end()) {
             return variables[name];
         } else {
-            std::cerr << "Error: Variable " << name << " not found in symbol table." << std::endl;
+            std::cerr << "Error: Variable " << name << " not found." << std::endl;
             exit(1);
         }
     }
 
-    void addFunction(Function function) {
-        functions[function.name] = function;
+    void setFunction(const std::string& name, const Function& function) {
+        functions[name] = function;
     }
 
-    Function getFunction(std::string name) {
+    Function getFunction(const std::string& name) {
         if (functions.find(name) != functions.end()) {
             return functions[name];
         } else {
-            std::cerr << "Error: Function " << name << " not found in symbol table." << std::endl;
+            std::cerr << "Error: Function " << name << " not found." << std::endl;
             exit(1);
         }
     }
-
-    // Add support for nested scopes
-    class Scope {
-    private:
-        std::unordered_map<std::string, int> variables;
-
-    public:
-        void setVariable(std::string name, int value) {
-            variables[name] = value;
-        }
-
-        int getVariable(std::string name) {
-            if (variables.find(name) != variables.end()) {
-                return variables[name];
-            } else {
-                std::cerr << "Error: Variable " << name << " not found in scope." << std::endl;
-                exit(1);
-            }
-        }
-    };
 };
 
-#endif
+// Add support for nested scopes
+class Scope {
+private:
+    std::unordered_map<std::string, int> variables;
+
+public:
+    void setVariable(const std::string& name, int value) {
+        variables[name] = value;
+    }
+
+    int getVariable(const std::string& name) {
+        if (variables.find(name) != variables.end()) {
+            return variables[name];
+        } else {
+            std::cerr << "Error: Variable " << name << " not found in scope." << std::endl;
+            exit(1);
+        }
+    }
+};
+
+#endif // SYMBOLTABLE_H

@@ -26,51 +26,6 @@ Token Lexer::getNextToken() {
         }
 
         if (isalpha(currentChar)) {
-            std::string variable = "";
-            while (position < input.length() && isalpha(input[position])) {
-                variable += input[position];
-                position++;
-            }
-            return Token(VARIABLE, variable);
-        }
-
-        // comment handling
-
-        if (currentChar == ' ') {
-            if (position + 1 < input.length() && input[position + 1] == '#') {
-                // Skip the rest of the line
-                while (position < input.length() && input[position] != '\n') {
-                    position++;
-                }
-            } else {
-                // Invalid character
-                std::cerr << "Invalid character: " << currentChar << std::endl;
-                exit(1);
-            }
-        }
-
-        // String literal handling
-
-        if (currentChar == '"') {
-            std::string literal = "";
-            position++;
-            while (position < input.length() && input[position] != '"') {
-                literal += input[position];
-                position++;
-            }
-            if (position < input.length()) {
-                position++;
-                return Token(STRING, literal);
-            } else {
-                // Unterminated string literal
-                std::cerr << "Unterminated string literal" << std::endl;
-                exit(1);
-            }
-        }
-
-        // Handling keywords
-
-        if (isalpha(currentChar)) {
             std::string identifier = "";
             while (position < input.length() && isalpha(input[position])) {
                 identifier += input[position];
@@ -90,48 +45,27 @@ Token Lexer::getNextToken() {
             }
         }
 
-        // Token identifier handling
-
-        else if (currentChar == '^') {
+        if (currentChar == '"') {
+            std::string literal = "";
             position++;
-            return Token(POWER, "^");
-        } else if (currentChar == '&') {
-            position++;
-            return Token(AND, "&");
-        } else if (currentChar == '|') {
-            position++;
-            return Token(OR, "|");
-        } else if (currentChar == '!') {
-            position++;
-            return Token(NOT, "!");
-        }
-
-        else if (currentChar == '"') {
-            position++;
-            std::string text;
-
-            while (currentChar != '"') {
-                if (currentChar == '\\') {
+            while (position < input.length() && input[position] != '"') {
+                if (input[position] == '\\') {
                     position++;
-                    if (currentChar == '"') {
-                        text += '"';
+                    if (position < input.length()) {
+                        literal += input[position];
                     }
-                    else if (currentChar == '\\') {
-                        text += '\\';
-                    }
-                    else if (currentChar == 'n') {
-                        text += '\n';
-                    }
-                    // Add support for other escape sequences as needed
-                }
-                else {
-                    text += currentChar;
+                } else {
+                    literal += input[position];
                 }
                 position++;
             }
-
-            position++;
-            return Token(STRING, text);
+            if (position < input.length()) {
+                position++;
+                return Token(STRING, literal);
+            } else {
+                std::cerr << "Unterminated string literal" << std::endl;
+                exit(1);
+            }
         }
 
         switch (currentChar) {
@@ -153,6 +87,18 @@ Token Lexer::getNextToken() {
             case ';':
                 position++;
                 return Token(PRINT, ";");
+            case '^':
+                position++;
+                return Token(POWER, "^");
+            case '&':
+                position++;
+                return Token(AND, "&");
+            case '|':
+                position++;
+                return Token(OR, "|");
+            case '!':
+                position++;
+                return Token(NOT, "!");
             default:
                 std::cerr << "Invalid character: " << currentChar << std::endl;
                 exit(1);

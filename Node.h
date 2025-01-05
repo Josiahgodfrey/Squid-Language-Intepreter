@@ -1,17 +1,9 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include "NodeType.h"
 #include <vector>
 #include <string>
-
-enum class NodeType {
-    Expression,
-    Statement,
-    FunctionCall,
-    IfStatement,
-    WhileLoop,
-    // Add other node types as needed
-};
 
 struct Node {
     NodeType type;
