@@ -212,3 +212,31 @@ int Parser::term() {
 
     return result;
 }
+
+// Modify the Parser class to handle user-defined functions
+int Parser::callFunction(std::string functionName, std::vector<int> arguments) {
+    // Lookup the function in the symbol table
+    Function function = symbolTable.getFunction(functionName);
+
+    // Check if the number of arguments matches the function's parameters
+    if (function.parameters.size() != arguments.size()) {
+        std::cerr << "Invalid number of arguments for function: " << functionName << std::endl;
+        exit(1);
+    }
+
+    // Create a new scope for the function call
+    SymbolTable localSymbolTable(symbolTable);
+
+    // Add the function's parameters and arguments to the local symbol table
+    for (size_t i = 0; i < function.parameters.size(); i++) {
+        localSymbolTable.addVariable(function.parameters[i], arguments[i]);
+    }
+
+    // Execute the function's body in the local symbol table
+    for (const auto& token : function.body) {
+        // ...
+    }
+
+    // Return the result of the function call
+    return localSymbolTable.getResult();
+}

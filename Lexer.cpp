@@ -100,6 +100,34 @@ Token Lexer::getNextToken() {
             return Token(NOT, "!");
         }
 
+        else if (currentChar == '"') {
+        position++;
+        std::string text;
+
+            while (currentChar != '"') {
+                if (currentChar == '\\') {
+                    position++;
+                    if (currentChar == '"') {
+                        text += '"';
+                    }
+                    else if (currentChar == '\\') {
+                        text += '\\';
+                    }
+                    else if (currentChar == 'n') {
+                        text += '\n';
+                    }
+                    // Add support for other escape sequences as needed
+                }
+                else {
+                    text += currentChar;
+                }
+                position++;
+            }
+
+        position++;
+        return Token(STRING, text);
+    }
+
         switch (currentChar) {
             case '+':
                 position++;
