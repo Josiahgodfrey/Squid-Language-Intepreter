@@ -22,7 +22,6 @@ enum TokenType {
     NOT,
 };
 
-
 struct Token {
     TokenType type;
     string text;
@@ -31,17 +30,14 @@ struct Token {
 };
 
 class Lexer {
-    private:
-        string input;
-        int position;
+private:
+    string input;
+    int position;
 
-    public:
-        Lexer(string input) : input(input), position(0) {}
+public:
+    Lexer(string input) : input(input), position(0) {}
 
-        Token getNextToken() {
-            //implementing the logic to tokenize the input string
-            //return the next token based on the grammer rules
-        }
+    Token getNextToken();
 };
 
 #endif
