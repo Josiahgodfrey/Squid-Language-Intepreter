@@ -1,7 +1,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-
 #include "Function.h"
 #include "Lexer.h"
 #include <unordered_map>
@@ -80,7 +79,7 @@ void Parser::parseFunction() {
     }
     eat(RBRACE);
 
-    void currentFunction = new Function(name, parameters, body);
+    currentFunction = new Function(name, parameters, body);
 }
 
 void Parser::parseIfStatement() {
