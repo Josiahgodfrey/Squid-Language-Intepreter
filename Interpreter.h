@@ -19,7 +19,7 @@ private:
     SymbolTable symbolTable;
 
 public:
-    int Interpret(std::string input) : lexer(input), parser(lexer), symbolTable() {};
+     Interpreter(std::string input) : lexer(input), parser(lexer), symbolTable() {};
 
     void evaluateAST(Node* node) {
         if (!node) return; // Check for null node

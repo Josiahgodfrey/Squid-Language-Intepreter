@@ -3,6 +3,7 @@
 
 #include "Lexer.h"
 #include <vector>
+#include <cctype>
 #include <string> // Added for std::string
 #include "Token.h"
 

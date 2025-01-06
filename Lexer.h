@@ -33,8 +33,8 @@ private:
 
 public:
     Lexer(string input) : input(input), position(0) {}
-    vector<Token> Lexer::tokenize();
-    Token Lexer::getNextToken();
+    vector<Token> tokenize();
+    Token getNextToken();
 };
 
 #endif
