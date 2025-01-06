@@ -89,6 +89,7 @@ void Parser::parseIfStatement() {
 }
 
 void Parser::parseWhileStatement() {
+
     eat(WHILE);
     eat(LPAREN);
     bool condition = parseCondition();
