@@ -1,6 +1,7 @@
 #ifndef LEXER_H
 #define LEXER_H
 
+#include "Token.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -32,8 +33,8 @@ private:
 
 public:
     Lexer(string input) : input(input), position(0) {}
-    vector<Token> tokenize();
-    Token getNextToken();
+    vector<Token> Lexer::tokenize();
+    Token Lexer::getNextToken();
 };
 
 #endif

@@ -6,17 +6,6 @@
 #include <vector>
 #include <string>
 
-// Define the Function class
-class Function {
-public:
-    std::string name;
-    std::vector<std::string> parameters;
-    std::vector<Token> body;
-
-    Function(std::string n, std::vector<std::string> p, std::vector<Token> b)
-        : name(n), parameters(p), body(b) {}
-};
-
 class SymbolTable {
 private:
     std::unordered_map<std::string, int> variables;

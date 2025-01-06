@@ -1,15 +1,12 @@
 #include "Interpreter.h"
+#include "Lexer.h"
+#include "Parser.h"
+#include "Node.h"
+#include "NodeType.h"
+#include <iostream>
+#include <vector>
+#include <string>
 
-void Interpreter::interpret() {
-    // Tokenize the input
-    std::vector<Token> tokens = lexer.tokenize();
-
-    // Parse the tokens
-    Node* ast = parser.parse(tokens);
-
-    // Evaluate the abstract syntax tree (AST) and execute the program
-    evaluateAST(ast);
-}
 
 void Interpreter::evaluateAST(Node* node) {
     // Implement the logic to evaluate the abstract syntax tree (AST) and execute the program

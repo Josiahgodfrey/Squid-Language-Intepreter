@@ -1,29 +1,17 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "Function.h"
 #include "Lexer.h"
-#include <unordered_map>
 #include <vector>
 #include <string> // Added for std::string
-#include "Node.h"
 #include "Token.h"
 
 
 class Lexer;
-struct Token {
-    TokenType type;
-    std::string text;
-
-    Token() = default; // Default constructor
-    Token(TokenType type, std::string text) : type(type), text(text) {}
-};
-
 class Parser {
 private:
     Lexer lexer;
     Token currentToken;
-    Function* currentFunction;
 
     void eat(TokenType type);
     bool parseCondition(); // Added declaration for parseCondition
@@ -37,7 +25,7 @@ public:
         currentToken = lexer.getNextToken();
     }
 
-    void parse(std::vector<Token>& tokens);
+    void parse();
     void parseFunction();
     void parseIfStatement();
     void parseWhileStatement();
@@ -52,6 +40,8 @@ public:
     Function(std::string name, std::vector<std::string> parameters, std::vector<Token> body)
         : name(name), parameters(parameters), body(body) {}
 };
+
+void Parser::parse() {}
 
 void Parser::parseFunction() {
     eat(FUNCTION);
@@ -79,7 +69,7 @@ void Parser::parseFunction() {
     }
     eat(RBRACE);
 
-    currentFunction = new Function(name, parameters, body);
+     Function function(name, parameters, body);
 }
 
 void Parser::parseIfStatement() {

@@ -19,18 +19,7 @@ private:
     SymbolTable symbolTable;
 
 public:
-    Interpreter(std::string input) : lexer(input), parser(lexer), symbolTable() {}
-
-    void interpret() {
-        // Tokenize the input
-        std::vector<Token> tokens = lexer.tokenize();
-
-        // Parse the tokens
-        Node* ast = parser.parse(tokens);
-
-        // Evaluate the abstract syntax tree (AST) and execute the program
-        evaluateAST(ast);
-    }
+    int Interpret(std::string input) : lexer(input), parser(lexer), symbolTable() {};
 
     void evaluateAST(Node* node) {
         if (!node) return; // Check for null node
